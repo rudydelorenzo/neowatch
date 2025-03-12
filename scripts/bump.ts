@@ -1,4 +1,14 @@
 import { $ } from "bun";
+import { readFile } from "fs/promises";
+
+const BUMP_COMMIT_USERNAME = "GitHub Actions";
+const BUMP_COMMIT_EMAIL = "ci@rudydelorenzo.noreply.ca";
+
+const getMatchInMessages = (messages: string[], matchRegex: RegExp) => {
+    for (const message of messages) {
+        if (matchRegex.test(message)) return true;
+    }
+};
 
 // Check if author identity is set
 const config = (await $`git config --list`.quiet()).text().split(/\n/);
@@ -14,8 +24,8 @@ if (
     configMap["user.email"] === undefined
 ) {
     console.info("Setting git identity");
-    await $`git config --global user.email "actions@github.com"`;
-    await $`git config --global user.name "Github Actions"`;
+    await $`git config --global user.email ${BUMP_COMMIT_EMAIL}`;
+    await $`git config --global user.name ${BUMP_COMMIT_USERNAME}`;
 } else {
     console.info("Skipping setting identity");
 }
@@ -29,8 +39,35 @@ if (!!status.text() && !process.env.FORCE) {
     process.exit(1);
 }
 
+// Determine which version to bump
+const commits = JSON.parse(
+    await readFile(new URL(process.env.GITHUB_EVENT_PATH, import.meta.url)),
+).commits;
+
+if (!commits) {
+    console.log("NO COMMITS, SKIPPING BUMP AND PUSH");
+    process.exit(0);
+}
+
+const commitMessages = commits.map((commit: any) => commit.message);
+
+console.log("Commit Messages:");
+console.log(commitMessages);
+
+let logicalBump = "patch";
+
+if (getMatchInMessages(commitMessages, /BREAKING/)) {
+    console.log("BUMPING MAJOR");
+    logicalBump = "major";
+} else if (getMatchInMessages(commitMessages, /feat:/)) {
+    console.log("BUMPING MINOR");
+    logicalBump = "minor";
+} else {
+    console.log("BUMPING PATCH");
+}
+
 // Bump version
-const semverPart = Bun.argv[3] || "patch";
+const semverPart = Bun.argv[3] || logicalBump || "patch";
 const json = await Bun.file("./package.json").json();
 const [major, minor, patch] = json.version
     .split(".")
