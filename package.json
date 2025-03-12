@@ -1,0 +1,17 @@
+{
+  "name": "neowatch",
+  "module": "index.ts",
+  "type": "module",
+  "private": false,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.1"
+}
