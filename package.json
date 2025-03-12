@@ -1,5 +1,6 @@
 {
   "name": "neowatch",
+  "description": "A lightweight ES6 and TypeScript compliant change-monitoring library.",
   "module": "index.ts",
   "type": "module",
   "private": false,
@@ -15,6 +16,10 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rudydelorenzo/neowatch"
   },
   "version": "0.0.3",
   "dependencies": {

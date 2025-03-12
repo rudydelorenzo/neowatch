@@ -10,6 +10,11 @@ const getMatchInMessages = (messages: string[], matchRegex: RegExp) => {
     }
 };
 
+if (!process.env.GITHUB_EVENT_PATH) {
+    console.error("!NOT RUNNING IN GITHUB ACTIONS! EXITING");
+    process.exit(1);
+}
+
 // Check if author identity is set
 const config = (await $`git config --list`.quiet()).text().split(/\n/);
 
@@ -41,7 +46,9 @@ if (!!status.text() && !process.env.FORCE) {
 
 // Determine which version to bump
 const commits = JSON.parse(
-    await readFile(new URL(process.env.GITHUB_EVENT_PATH, import.meta.url)),
+    (await readFile(
+        new URL(process.env.GITHUB_EVENT_PATH, import.meta.url),
+    )) as unknown as string,
 ).commits;
 
 if (!commits) {
