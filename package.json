@@ -16,7 +16,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "dependencies": {
     "croner": "^9.0.0",
     "winston": "^3.17.0"
