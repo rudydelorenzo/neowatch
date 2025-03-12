@@ -37,6 +37,8 @@ $ bun install neowatch
 $ bun add neowatch
 ```
 
+
+
 ## Usage
 
 ### Import the `watch` function
@@ -66,6 +68,8 @@ For more details on the API visit neowatch API
 This is the main functionality of neowatch. It'll poll the passed in function `fn` based on 
 the cron schedule `schedule`, and if any changes are detected in the return, 
 it will call the `callback` function with those changes as the argument.
+
+
 
 ## Development
 This project was created using `bun init` in bun v1.2.5. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
