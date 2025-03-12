@@ -1,0 +1,22 @@
+name: Neowatch Publish (NPM)
+
+on:
+  push:
+    branches: [ main ]
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Bump version
+        run: bun run bump
+      - name: Publish
+        run: bun publish
+        env:
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}

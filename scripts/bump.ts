@@ -21,9 +21,9 @@ await Bun.write("./package.json", JSON.stringify(json, null, 2));
 // Commit, tag and push
 await $`git add package.json`;
 await $`git commit -m v${json.version}`;
-await $`git tag v${json.version}`;
+await $`git tag ${json.version}`;
 await $`git push`;
-await $`git push origin v${json.version}`;
+await $`git push origin ${json.version}`;
 
 function bump(semver: [number, number, number], semverPart = "patch") {
     switch (semverPart) {
