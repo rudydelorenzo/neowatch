@@ -2,10 +2,15 @@
   "name": "neowatch",
   "description": "A lightweight ES6 and TypeScript compliant change-monitoring library.",
   "module": "index.ts",
+  "version": "0.0.4",
   "type": "module",
   "private": false,
   "scripts": {
     "bump": "bun run scripts/bump.ts"
+  },
+  "dependencies": {
+    "croner": "^9.0.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -17,13 +22,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/rudydelorenzo/neowatch"
-  },
-  "dependencies": {
-    "croner": "^9.0.0",
-    "winston": "^3.17.0"
   }
 }
