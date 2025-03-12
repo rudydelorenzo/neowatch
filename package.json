@@ -3,6 +3,9 @@
   "module": "index.ts",
   "type": "module",
   "private": false,
+  "scripts": {
+    "bump": "bun run scripts/bump.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "prettier": "^3.5.3"
