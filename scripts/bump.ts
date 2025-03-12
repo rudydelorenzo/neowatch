@@ -1,5 +1,25 @@
 import { $ } from "bun";
 
+// Check if author identity is set
+const config = (await $`git config --list`.quiet()).text().split(/\n/);
+
+const configMap: Record<string, string> = {};
+config.map((line) => {
+    const [prop, val] = line.split(/=/, 2);
+    if (prop && val) configMap[prop] = val;
+});
+
+if (
+    configMap["user.name"] === undefined ||
+    configMap["user.email"] === undefined
+) {
+    console.info("Setting git identity");
+    await $`git config --global user.email "actions@github.com"`;
+    await $`git config --global user.name "Github Actions"`;
+} else {
+    console.info("Skipping setting identity");
+}
+
 // Check for uncommitted changes
 const status = await $`git status --porcelain`.quiet();
 if (!!status.text() && !process.env.FORCE) {
