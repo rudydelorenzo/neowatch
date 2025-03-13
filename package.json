@@ -2,7 +2,7 @@
   "name": "neowatch",
   "description": "A lightweight ES6 and TypeScript compliant change-monitoring library.",
   "module": "index.ts",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "type": "module",
   "private": false,
   "scripts": {
