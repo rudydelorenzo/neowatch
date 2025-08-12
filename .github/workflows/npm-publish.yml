@@ -19,7 +19,7 @@ jobs:
       - name: Bump version
         run: bun run bump
       - name: Install packages for build
-        run: bun install
+        run: bun install --frozen-lockfile
       - name: Build package
         run: bun run build
       - name: Publish
