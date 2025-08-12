@@ -18,6 +18,8 @@ jobs:
           bun-version: latest
       - name: Bump version
         run: bun run bump
+      - name: Build package
+        run: bun run build
       - name: Publish
         run: bun publish
         env:
