@@ -19,6 +19,7 @@ type WatchOptions<T> = {
     dithering?: number; // milliseconds on either end, max is (interval between runs / 2)
     logLevel?: LogLevelsType;
     pushChangesOnFirstRun?: boolean; // if callback should be called with full list of data on first call
+    ignoreFailures?: boolean;
 };
 
 const objInList = <T>(
@@ -107,8 +108,16 @@ export const watch = async <T extends unknown>(
 
     const run = async (prev: T[], slot: Date) => {
         logger.debug(`### RUN @ ${new Date().toISOString()} ###`);
+
         // fetch new data
-        const newData = await fn();
+        let newData: T[] = prev;
+        try {
+            newData = await fn();
+        } catch (e) {
+            if (!options?.ignoreFailures) {
+                throw e; // rethrow
+            }
+        }
 
         // compare
         const changes = getNewData(prev, newData, options?.comparator);

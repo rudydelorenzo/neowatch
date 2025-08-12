@@ -1,12 +1,24 @@
 {
   "name": "neowatch",
   "description": "A lightweight ES6 and TypeScript compliant change-monitoring library.",
-  "module": "index.ts",
   "version": "0.0.7",
-  "type": "module",
   "private": false,
+  "type": "module",
+  "main": "./dist/watch.cjs",
+  "module": "./dist/watch.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/watch.cjs",
+      "import": "./dist/watch.js"
+    }
+  },
   "scripts": {
-    "bump": "bun run scripts/bump.ts"
+    "bump": "bun run scripts/bump.ts",
+    "build": "tsup"
   },
   "dependencies": {
     "croner": "^9.0.0",
@@ -14,7 +26,8 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "tsup": "^8.5.0"
   },
   "peerDependencies": {
     "typescript": "^5"
